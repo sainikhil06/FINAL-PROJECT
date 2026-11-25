@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A2ZCars - Cars</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- React library -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const cars = [
+      { name: "Maruti Swift",  type: "Hatchback", seats: 5, price: 1500, image: "swift.jpg" },
+      { name: "Hyundai Creta", type: "SUV",       seats: 5, price: 2500, image: "creta.jpg" },
+      { name: "Toyota Innova", type: "MPV",       seats: 7, price: 3000, image: "innova.jpg" },
+      { name: "Honda City",    type: "Sedan",     seats: 5, price: 2200, image: "city.jpg" },
+      { name: "Mahindra Thar", type: "Off-road",  seats: 4, price: 3500, image: "thar.jpg" },
+      { name: "Tata Nexon",    type: "SUV",       seats: 5, price: 2300, image: "nexon.jpg" }
+    ];
+
+    function Header({ user }) {
+      function logout() {
+        localStorage.removeItem("user");
+        localStorage.removeItem("booking");
+        window.location.href = "index.html";
+      }
+      return (
+        <header>
+          <h2>🚗 A2ZCars</h2>
+          <div>
+            <span>Welcome, {user}</span>
+            <button onClick={() => (window.location.href = "cars.html")}>Cars</button>
+            <button onClick={() => (window.location.href = "history.html")}>My Bookings</button>
+            <button onClick={logout}>Logout</button>
+          </div>
+        </header>
+      );
+    }
+
+    function CarCard({ car, onBook }) {
+      return (
+        <div className="car">
+          <img src={car.image} alt={car.name} />
+          <div className="car-info">
+            <h3>{car.name}</h3>
+            <p>{car.type} | {car.seats} Seats</p>
+            <p className="price">₹{car.price} / day</p>
+            <button onClick={() => onBook(car)}>Book Now</button>
+          </div>
+        </div>
+      );
+    }
+
+    function Cars() {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        window.location.href = "index.html";
+        return null;
+      }
+
+      function bookCar(car) {
+        const days = prompt("How many days do you want to rent " + car.name + "?");
+        if (!days || days <= 0) return;
+
+        const booking = {
+          id: "A2Z" + Math.floor(1000 + Math.random() * 9000),
+          user: user,
+          name: car.name,
+          type: car.type,
+          price: car.price,
+          image: car.image,
+          days: days,
+          total: days * car.price,
+          date: new Date().toLocaleDateString()
+        };
+        const all = JSON.parse(localStorage.getItem("bookings")) || [];
+        all.push(booking);
+        localStorage.setItem("bookings", JSON.stringify(all));
+        localStorage.setItem("booking", JSON.stringify(booking));
+        window.location.href = "booking.html";
+      }
+
+      return (
+        <div>
+          <Header user={user} />
+          <h1 className="title">Available Cars</h1>
+          <div className="car-list">
+            {cars.map((car) => (
+              <CarCard key={car.name} car={car} onBook={bookCar} />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<Cars />);
+  </script>
+</body>
+</html>

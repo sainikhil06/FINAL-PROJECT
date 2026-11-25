@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A2ZCars - Booking Confirmation</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- React library -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function Header({ user }) {
+      function logout() {
+        localStorage.removeItem("user");
+        localStorage.removeItem("booking");
+        window.location.href = "index.html";
+      }
+      return (
+        <header>
+          <h2>🚗 A2ZCars</h2>
+          <div>
+            <span>Welcome, {user}</span>
+            <button onClick={() => (window.location.href = "cars.html")}>Cars</button>
+            <button onClick={() => (window.location.href = "history.html")}>My Bookings</button>
+            <button onClick={logout}>Logout</button>
+          </div>
+        </header>
+      );
+    }
+
+    function Booking() {
+      const user = localStorage.getItem("user");
+      const booking = JSON.parse(localStorage.getItem("booking"));
+
+      if (!user) { window.location.href = "index.html"; return null; }
+      if (!booking) { window.location.href = "cars.html"; return null; }
+
+      return (
+        <div>
+          <Header user={user} />
+          <div className="box">
+            <img src={booking.image} alt={booking.name} />
+            <div className="content">
+              <h2 className="success">✔ Booking Confirmed!</h2>
+              <table>
+                <tbody>
+                  <tr><td>Booking ID</td><td>{booking.id}</td></tr>
+                  <tr><td>Booked By</td><td>{user}</td></tr>
+                  <tr><td>Car</td><td>{booking.name}</td></tr>
+                  <tr><td>Type</td><td>{booking.type}</td></tr>
+                  <tr><td>Price per Day</td><td>₹{booking.price}</td></tr>
+                  <tr><td>Number of Days</td><td>{booking.days}</td></tr>
+                  <tr><td>Booking Date</td><td>{booking.date}</td></tr>
+                  <tr className="total"><td>Total Amount</td><td>₹{booking.total}</td></tr>
+                </tbody>
+              </table>
+              <div className="message">📍 <b>Please pick your car near KL University</b></div>
+              <button className="btn" onClick={() => (window.location.href = "cars.html")}>Back to Cars</button>
+              <button className="btn" onClick={() => (window.location.href = "history.html")}>View Booking History</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<Booking />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A2ZCars - Booking History</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- React library -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function Header({ user }) {
+      function logout() {
+        localStorage.removeItem("user");
+        localStorage.removeItem("booking");
+        window.location.href = "index.html";
+      }
+      return (
+        <header>
+          <h2>🚗 A2ZCars</h2>
+          <div>
+            <span>Welcome, {user}</span>
+            <button onClick={() => (window.location.href = "cars.html")}>Cars</button>
+            <button onClick={() => (window.location.href = "history.html")}>My Bookings</button>
+            <button onClick={logout}>Logout</button>
+          </div>
+        </header>
+      );
+    }
+
+    function History() {
+      const user = localStorage.getItem("user");
+      if (!user) { window.location.href = "index.html"; return null; }
+
+      const all = JSON.parse(localStorage.getItem("bookings")) || [];
+      const mine = all.filter((b) => b.user === user).reverse();
+
+      return (
+        <div>
+          <Header user={user} />
+          <h1 className="title">My Booking History</h1>
+          <div className="table-box">
+            {mine.length === 0 ? (
+              <p className="empty">You have no bookings yet.</p>
+            ) : (
+              <table className="history">
+                <thead>
+                  <tr><th>Car</th><th>Booking ID</th><th>Type</th><th>Days</th><th>Date</th><th>Total</th></tr>
+                </thead>
+                <tbody>
+                  {mine.map((b) => (
+                    <tr key={b.id}>
+                      <td><img src={b.image} alt={b.name} /> {b.name}</td>
+                      <td>{b.id}</td>
+                      <td>{b.type}</td>
+                      <td>{b.days}</td>
+                      <td>{b.date}</td>
+                      <td className="total-text">₹{b.total}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<History />);
+  </script>
+</body>
+</html>

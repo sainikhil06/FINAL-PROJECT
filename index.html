@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A2ZCars - Login</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body {
+      height: 100vh; display: flex; justify-content: center; align-items: center;
+      background-color: #1e3c72;
+      background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/background.jpg");
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+    }
+    .login-box {
+      background: rgba(255,255,255,0.95); padding: 30px; width: 320px;
+      border-radius: 10px; text-align: center;
+    }
+    .login-box p { color: gray; margin-bottom: 15px; }
+    .login-box input {
+      width: 100%; padding: 10px; margin-bottom: 12px;
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+    .login-box button {
+      width: 100%; padding: 10px; background: #1e3c72; color: white;
+      border: none; border-radius: 5px; cursor: pointer;
+    }
+    #message { margin-bottom: 10px; color: red; }
+    #toggle { margin-top: 15px; color: #1e3c72; cursor: pointer; text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+  <div class="login-box">
+    <h1>🚗 A2ZCars</h1>
+    <p id="subtitle">Please login to continue</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <p id="message"></p>
+    <button id="mainBtn" onclick="submitForm()">Login</button>
+    <p id="toggle" onclick="toggleMode()">New user? Register here</p>
+  </div>
+
+  <script>
+    let mode = "login";   // "login" or "register"
+
+    // Switch between Login and Register
+    function toggleMode() {
+      mode = (mode === "login") ? "register" : "login";
+      document.getElementById("message").innerText = "";
+      if (mode === "register") {
+        document.getElementById("subtitle").innerText = "Create a new account";
+        document.getElementById("mainBtn").innerText = "Register";
+        document.getElementById("toggle").innerText = "Already have an account? Login";
+      } else {
+        document.getElementById("subtitle").innerText = "Please login to continue";
+        document.getElementById("mainBtn").innerText = "Login";
+        document.getElementById("toggle").innerText = "New user? Register here";
+      }
+    }
+
+    function submitForm() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const msg = document.getElementById("message");
+
+      if (user === "" || pass === "") {
+        msg.style.color = "red";
+        msg.innerText = "Please enter username and password";
+        return;
+      }
+
+      // "database" of users
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      if (mode === "register") {
+        if (users.some(u => u.username === user)) {
+          msg.style.color = "red";
+          msg.innerText = "Username already exists";
+          return;
+        }
+        users.push({ username: user, password: pass });
+        localStorage.setItem("users", JSON.stringify(users));   // save new user
+        toggleMode();                                            // back to login
+        msg.style.color = "green";
+        msg.innerText = "Registered! Please login.";
+      } else {
+        const found = users.find(u => u.username === user && u.password === pass);
+        if (!found) {
+          msg.style.color = "red";
+          msg.innerText = "Wrong username or password";
+          return;
+        }
+        localStorage.setItem("user", user);   // current logged-in user
+        window.location.href = "cars.html";
+      }
+    }
+  </script>
+</body>
+</html>

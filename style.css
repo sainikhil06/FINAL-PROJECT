@@ -1,0 +1,53 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+body { background: #f2f4f8; }
+
+/* Login */
+.login-page {
+  height: 100vh; display: flex; justify-content: center; align-items: center;
+  background-color: #1e3c72;
+  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/background.jpg");
+  background-size: cover; background-position: center;
+}
+.login-box { background: rgba(255,255,255,0.95); padding: 30px; width: 320px; border-radius: 10px; text-align: center; }
+.login-box p { color: gray; margin-bottom: 15px; }
+.login-box input { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 5px; }
+.login-box button { width: 100%; padding: 10px; background: #1e3c72; color: white; border: none; border-radius: 5px; cursor: pointer; }
+.toggle { margin-top: 15px; color: #1e3c72 !important; cursor: pointer; text-decoration: underline; }
+
+/* Header */
+header { background: #1e3c72; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+header button { margin-left: 10px; padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; }
+header span { margin-right: 5px; }
+.title { text-align: center; margin: 25px 0; }
+
+/* Cars */
+.car-list { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 0 20px 30px; }
+.car { background: white; width: 270px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.car img { width: 100%; height: 170px; object-fit: cover; }
+.car-info { padding: 15px; }
+.car-info h3 { margin-bottom: 5px; }
+.car-info p { color: #555; margin-bottom: 5px; }
+.price { color: green !important; font-weight: bold; }
+.car-info button { width: 100%; margin-top: 10px; padding: 10px; background: #1e3c72; color: white; border: none; border-radius: 5px; cursor: pointer; }
+
+/* Booking confirmation */
+.box { background: white; width: 90%; max-width: 480px; margin: 30px auto; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.box img { width: 100%; height: 200px; object-fit: cover; }
+.content { padding: 20px; }
+.success { color: green; text-align: center; margin-bottom: 15px; }
+.box table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+.box td { padding: 8px; border-bottom: 1px solid #eee; }
+.box td:first-child { color: #555; }
+.box td:last-child { text-align: right; font-weight: bold; }
+.total td { color: green; font-size: 18px; border-bottom: none; }
+.message { background: #fff6d6; border: 1px solid #f0c040; padding: 12px; border-radius: 5px; text-align: center; margin-bottom: 15px; }
+.btn { width: 100%; padding: 10px; background: #1e3c72; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 8px; }
+
+/* History */
+.table-box { background: white; width: 95%; max-width: 900px; margin: 0 auto 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); overflow-x: auto; }
+.history { width: 100%; border-collapse: collapse; }
+.history th { background: #1e3c72; color: white; padding: 12px; text-align: left; }
+.history td { padding: 12px; border-bottom: 1px solid #eee; }
+.history img { width: 70px; height: 45px; object-fit: cover; border-radius: 5px; vertical-align: middle; }
+.total-text { color: green; font-weight: bold; }
+.empty { text-align: center; padding: 30px; color: gray; }
